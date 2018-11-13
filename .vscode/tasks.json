@@ -1,0 +1,63 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // 默认第一条为编译命令
+            "label": "build",
+            // 使用 g++ 编译
+            "command": "g++",
+            // 参数包含所有使用到的源文件
+            "args": [
+                "CC++/sort/sort.cpp",
+                "-o",
+                "CC++/sort/sort.exe"
+            ],
+            // 默认在 shell 中执行编译命令
+            "type": "shell"
+        },
+        {
+            // 编译 debug 用的目标文件
+            "label": "build-debug",
+            "command": "g++",
+            // -g 参数用于编译可 debug 的目标文件
+            "args": [
+                "-g",
+                "main.cpp",
+                "add.cpp",
+                "sub.cpp",
+                "-o",
+                "debug.exe"
+            ],
+            "type": "shell"
+        },
+        {
+            "label": "Build test.out",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.out",
+                "-g"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            // 默认第一条为编译命令
+            "label": "build study",
+            // 使用 g++ 编译
+            "command": "g++",
+            // 参数包含所有使用到的源文件
+            "args": [
+                "CC++/study/test.cpp",
+                "-o",
+                "CC++/study/test.exe",
+            ],
+            // 默认在 shell 中执行编译命令
+            "type": "shell"
+        }
+    ]
+}
