@@ -166,7 +166,6 @@ void mergeSort(int a[], int left, int right)
     mergeSort(a, mid + 1, right);
     // 将A[p...q]和A[q+1...r]合并为A[p...r]
     merge(a, left, mid, right);
-    printAll(a, 10);
 }
 
 int main(int argc, char const *argv[])
