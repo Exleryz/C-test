@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // 冒泡排序
-void bubbleSort(int *a, int n)
+void bubbleSort(int a[], int n)
 {
     for (int i = 0; i < n; i++)
     {
@@ -19,7 +20,7 @@ void bubbleSort(int *a, int n)
 }
 
 // 选择排序
-void selectionSort(int *a, int n)
+void selectionSort(int a[], int n)
 {
     for (int i = 0; i < n; i++)
     {
@@ -36,7 +37,7 @@ void selectionSort(int *a, int n)
 }
 
 //插入排序
-void insertionSort(int *a, int n)
+void insertionSort(int a[], int n)
 {
     int j;
     for (int i = 1; i < n; i++)
@@ -61,7 +62,7 @@ void insertionSort(int *a, int n)
 }
 
 // 希尔排序
-void shellSort(int *a, int n)
+void shellSort(int a[], int n)
 {
     // 分组 增量gap 逐步减小
     for (int gap = n / 2; gap > 0; gap = gap / 2)
@@ -84,7 +85,7 @@ void shellSort(int *a, int n)
 }
 
 // 归并排序
-void mergeSort(int *a, int left, int right)
+void mergeSort(int a[], int left, int right)
 {
     // 递归终止条件
     if (left >= right)
@@ -98,37 +99,66 @@ void mergeSort(int *a, int left, int right)
     mergeSort(a, left, mid);
     mergeSort(a, mid + 1, right);
     // 将A[p...q]和A[q+1...r]合并为A[p...r]
-    // merge(a[left, mid], A[p... q], A[q + 1...r])
+    // merge(a[left, right], A[left... mid], A[mid + 1...right])
 }
 
 /**
  * count从0开始，num从1开始
  * 
  */
-void merge(int *a, int left, int mid, int right)
+void merge(int a[], int left, int mid, int right)
 {
     int *temp;
-    // temp = (int*)malloc();
-    for (int i = left, j = mid + 1; i <= mid; j < right)
-    {
-        // if (a[i] > a[j])
-        // {
-        //     merge[countMerge++] = b[countB];
-        //     countB++;
-        // }
-        // else
-        // {
-        //     merge[countMerge++] = a[i++];
-        // }
+    temp = (int *)malloc((right - left + 1) * sizeof(int));
 
-        // while (countB < numB)
-        // {
-        //     merge[countMerge++] = b[countB++];
-        // }
+    if (!temp)
+    {
+        abort();
+        // name       : abort 
+        // function   : 异常终止一个进程 
+        // declare    : void abort(void); 
+        // include    ：#include <stdlib.h> 
+        // explanation：abort函数是一个比较严重的函数，当调用它时，会导致程序异常终止，而不会进行一些常规的清除工作，比如释放内存等。 
     }
+    int k = 0, i, j;
+    for (i = left, j = mid + 1; i <= mid; j < right)
+    {
+        if (a[i] <= a[j])
+        {
+            temp[k++] = a[i++];
+        }
+        else
+        {
+            temp[k++] = a[j++];
+        }
+    }
+
+    if (i == mid + 1)
+    { // i到尽头检查j
+        while (j <= right)
+        {
+            temp[k++] = a[j++];
+        }
+    }
+    else
+    {
+        //j到尽头检查i
+        while (i <= mid)
+        {
+            temp[k++] = a[i++];
+        }
+    }
+    // 赋值失败 形参作用域
+    // a = temp;
+    memcpy(a + left, temp, (right - left + 1) * sizeof(int));
+    // 原型：extern void *memcpy(void *dest, void *src, unsigned int count);
+    // 用法：#include <string.h>
+    // 功能：由src所指内存区域复制count个字节到dest所指内存区域。
+    // 说明：src和dest所指内存区域不能重叠，函数返回指向dest的指针。
+    free(temp);
 }
 
-void printAll(int *a, int n)
+void printAll(int a[], int n)
 {
     for (int i = 0; i < n; i++)
     {
@@ -147,13 +177,9 @@ int main(int argc, char const *argv[])
     // selectionSort(a, n);
     // insertionSort(a, n);
     // shellSort(a, n);
-    mergeSort(a, n);
-    int numA = 5;
-    int numB = 2;
-    int aa[numA] = {3, 4, 5, 7, 10};
-    int bb[numB] = {2, 9};
-    int cc[numA + numB];
-    sort(aa, numA, bb, numB, cc);
-    printAll(cc, numA + numB);
+    // mergeSort(a, n);
+    int aa[7] = {3, 6, 10, 11, 2, 4, 9};
+    merge(aa, 0, (0 + 6) / 2, 6);
+    printAll(aa, 7);
     return 0;
 }
