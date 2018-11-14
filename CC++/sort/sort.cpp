@@ -2,6 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+// 输出数组
+void printAll(int a[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
 // 冒泡排序
 void bubbleSort(int a[], int n)
 {
@@ -84,24 +94,6 @@ void shellSort(int a[], int n)
     }
 }
 
-// 归并排序
-void mergeSort(int a[], int left, int right)
-{
-    // 递归终止条件
-    if (left >= right)
-    {
-        return;
-    }
-
-    // 取left到right之间的中间位置mid
-    int mid = (left + right) / 2;
-    // 分治递归
-    mergeSort(a, left, mid);
-    mergeSort(a, mid + 1, right);
-    // 将A[p...q]和A[q+1...r]合并为A[p...r]
-    // merge(a[left, right], A[left... mid], A[mid + 1...right])
-}
-
 /**
  * count从0开始，num从1开始
  * 
@@ -121,7 +113,7 @@ void merge(int a[], int left, int mid, int right)
         // explanation：abort函数是一个比较严重的函数，当调用它时，会导致程序异常终止，而不会进行一些常规的清除工作，比如释放内存等。 
     }
     int k = 0, i, j;
-    for (i = left, j = mid + 1; i <= mid; j < right)
+    for (i = left, j = mid + 1; i <= mid && j <= right;)
     {
         if (a[i] <= a[j])
         {
@@ -158,13 +150,23 @@ void merge(int a[], int left, int mid, int right)
     free(temp);
 }
 
-void printAll(int a[], int n)
+// 归并排序
+void mergeSort(int a[], int left, int right)
 {
-    for (int i = 0; i < n; i++)
+    // 递归终止条件
+    if (left >= right)
     {
-        printf("%d ", a[i]);
+        return;
     }
-    printf("\n");
+
+    // 取left到right之间的中间位置mid
+    int mid = (left + right) / 2;
+    // 分治递归
+    mergeSort(a, left, mid);
+    mergeSort(a, mid + 1, right);
+    // 将A[p...q]和A[q+1...r]合并为A[p...r]
+    merge(a, left, mid, right);
+    printAll(a, 10);
 }
 
 int main(int argc, char const *argv[])
@@ -177,9 +179,7 @@ int main(int argc, char const *argv[])
     // selectionSort(a, n);
     // insertionSort(a, n);
     // shellSort(a, n);
-    // mergeSort(a, n);
-    int aa[7] = {3, 6, 10, 11, 2, 4, 9};
-    merge(aa, 0, (0 + 6) / 2, 6);
-    printAll(aa, 7);
+    // mergeSort(a, 0, n - 1);
+    printAll(a, n);
     return 0;
 }
