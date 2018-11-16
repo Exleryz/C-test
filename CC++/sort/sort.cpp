@@ -168,17 +168,52 @@ void mergeSort(int a[], int left, int right)
     merge(a, left, mid, right);
 }
 
+// 快速排序分区函数
+int partition(int a[], int left, int right)
+{
+    int pirot = a[right];
+    int temp, i = left;
+    for (int j = i; j < right; j++)
+    {
+        if (a[j] < pirot)
+        {
+            temp = a[i];
+            a[i++] = a[j];
+            a[j] = temp;
+        }
+    }
+    a[right] = a[i];
+    a[i] = pirot;
+    return i;
+}
+
+// 快速排序
+void quickSort(int a[], int left, int right)
+{
+    printAll(a, 10);
+    if (left >= right)
+    {
+        return;
+    }
+    int pirot = partition(a, left, right);
+    quickSort(a, left, pirot - 1);
+    quickSort(a, pirot + 1, right);
+}
+
 int main(int argc, char const *argv[])
 {
     // https://www.cnblogs.com/xiongxx/p/6239213.html
     printf("This is bubbleSort\n");
     int n = 10;
-    int a[n] = {22, 3, 12, 34, 5, 6, 5, 89, 63, 24};
+    // int a[n] = {22, 3, 12, 34, 5, 6, 5, 89, 63, 24};
+    int a[n] = {99, 86, 89, 73, 24, 57, 57, 6, 66, 22};
     // bubbleSort(a, n);
     // selectionSort(a, n);
     // insertionSort(a, n);
     // shellSort(a, n);
     // mergeSort(a, 0, n - 1);
+    quickSort(a, 0, n - 1);
+    // partition(a, 0, n - 1);
     printAll(a, n);
     return 0;
 }
