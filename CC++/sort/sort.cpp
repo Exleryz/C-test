@@ -168,14 +168,14 @@ void mergeSort(int a[], int left, int right)
     merge(a, left, mid, right);
 }
 
-// 快速排序分区函数
-int partition(int a[], int left, int right)
+// 快速排序分区函数 升序
+int partitionAsc(int a[], int left, int right)
 {
-    int pirot = a[right];
+    int pivot = a[right];
     int temp, i = left;
     for (int j = i; j < right; j++)
     {
-        if (a[j] < pirot)
+        if (a[j] < pivot)
         {
             if (i != j)
             {
@@ -187,7 +187,7 @@ int partition(int a[], int left, int right)
         }
     }
     a[right] = a[i];
-    a[i] = pirot;
+    a[i] = pivot;
     return i;
 }
 
@@ -199,34 +199,71 @@ void quickSort(int a[], int left, int right)
     {
         return;
     }
-    int pirot = partition(a, left, right);
-    quickSort(a, left, pirot - 1);
-    quickSort(a, pirot + 1, right);
+    int pivot = partitionAsc(a, left, right);
+    quickSort(a, left, pivot - 1);
+    quickSort(a, pivot + 1, right);
 }
 
 void quickSort2(int a[], int l, int r)
 {
-	int i, j;
-	int temp;
-	if (l >= r)
-		return; /* 只有一个记录或无记录，则无须排序 */
-	i = l;
-	j = r;
-	temp = a[i];
-	while (i != j)
-	{
-		while ((a[j] >= temp) && (j > i))
-			j--; /* 从右向左扫描，查找第1个排序码小于temp.key的记录 */
-		if (i < j)
-			a[i++] = a[j];
-		while ((a[i] <= temp) && (j > i))
-			i++; /* 从左向右扫描，查找第1个排序码大于temp.key的记录 */
-		if (i < j)
-			a[j--] = a[i];
-	}
-	a[i] = temp;		/* 找到R0的最终位置 */
-	quickSort(a, l, i - 1); /* 递归处理左区间 */
-	quickSort(a, i + 1, r); /* 递归处理右区间 */
+    int i, j;
+    int temp;
+    if (l >= r)
+        return; /* 只有一个记录或无记录，则无须排序 */
+    i = l;
+    j = r;
+    temp = a[i];
+    while (i != j)
+    {
+        while ((a[j] >= temp) && (j > i))
+            j--; /* 从右向左扫描，查找第1个排序码小于temp.key的记录 */
+        if (i < j)
+            a[i++] = a[j];
+        while ((a[i] <= temp) && (j > i))
+            i++; /* 从左向右扫描，查找第1个排序码大于temp.key的记录 */
+        if (i < j)
+            a[j--] = a[i];
+    }
+    a[i] = temp;            /* 找到R0的最终位置 */
+    quickSort(a, l, i - 1); /* 递归处理左区间 */
+    quickSort(a, i + 1, r); /* 递归处理右区间 */
+}
+
+int partitionDesc(int a[], int left, int right)
+{
+    int temp, pivot = a[right];
+    int i = left;
+    for (int j = i; j < right; j++)
+    {
+        if (a[j] > pivot)
+        {
+            if (i != j)
+            {
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+            i++;
+        }
+    }
+    a[right] = a[i];
+    a[i] = pivot;
+    return i;
+}
+
+// 查找第K大元素(已检验过k在index内, 需要分区算法降序分区)
+int findIndexK(int a[], int k, int left, int right)
+{
+    int pivot = partitionDesc(a, left, right);
+    if (k > pivot)
+    {
+        return findIndexK(a, k, pivot + 1, right);
+    }
+    if (k < pivot)
+    {
+        return findIndexK(a, k, left, pivot - 1);
+    }
+    return pivot;
 }
 
 int main(int argc, char const *argv[])
@@ -234,6 +271,7 @@ int main(int argc, char const *argv[])
     // https://www.cnblogs.com/xiongxx/p/6239213.html
     printf("This is bubbleSort\n");
     int n = 10;
+    int k = 5;
     // int a[n] = {22, 3, 12, 34, 5, 6, 5, 89, 63, 24};
     int a[n] = {99, 86, 89, 73, 24, 57, 57, 6, 66, 22};
     // bubbleSort(a, n);
@@ -241,7 +279,8 @@ int main(int argc, char const *argv[])
     // insertionSort(a, n);
     // shellSort(a, n);
     // mergeSort(a, 0, n - 1);
-    quickSort(a, 0, n - 1);
+    // quickSort(a, 0, n - 1);
+    printf("%d\n", a[findIndexK(a, k - 1, 0, n - 1)]);
     printAll(a, n);
     return 0;
 }
