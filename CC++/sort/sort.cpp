@@ -204,6 +204,31 @@ void quickSort(int a[], int left, int right)
     quickSort(a, pirot + 1, right);
 }
 
+void quickSort2(int a[], int l, int r)
+{
+	int i, j;
+	int temp;
+	if (l >= r)
+		return; /* 只有一个记录或无记录，则无须排序 */
+	i = l;
+	j = r;
+	temp = a[i];
+	while (i != j)
+	{
+		while ((a[j] >= temp) && (j > i))
+			j--; /* 从右向左扫描，查找第1个排序码小于temp.key的记录 */
+		if (i < j)
+			a[i++] = a[j];
+		while ((a[i] <= temp) && (j > i))
+			i++; /* 从左向右扫描，查找第1个排序码大于temp.key的记录 */
+		if (i < j)
+			a[j--] = a[i];
+	}
+	a[i] = temp;		/* 找到R0的最终位置 */
+	quickSort(a, l, i - 1); /* 递归处理左区间 */
+	quickSort(a, i + 1, r); /* 递归处理右区间 */
+}
+
 int main(int argc, char const *argv[])
 {
     // https://www.cnblogs.com/xiongxx/p/6239213.html
