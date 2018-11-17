@@ -177,9 +177,13 @@ int partition(int a[], int left, int right)
     {
         if (a[j] < pirot)
         {
-            temp = a[i];
-            a[i++] = a[j];
-            a[j] = temp;
+            if (i != j)
+            {
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+            i++;
         }
     }
     a[right] = a[i];
