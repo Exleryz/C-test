@@ -242,7 +242,6 @@ int main(int argc, char const *argv[])
     // shellSort(a, n);
     // mergeSort(a, 0, n - 1);
     quickSort(a, 0, n - 1);
-    // partition(a, 0, n - 1);
     printAll(a, n);
     return 0;
 }
