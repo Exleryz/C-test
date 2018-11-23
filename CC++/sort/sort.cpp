@@ -266,6 +266,46 @@ int findIndexK(int a[], int k, int left, int right)
     return pivot;
 }
 
+/**
+ * 此排序对数据有要求
+ * 规定数据在0-10之间
+ * 
+ * 数组a a的数量
+ */
+// 计数排序(Counting sort)
+void countingSort(int a[], int n)
+{
+    // 构建计数数组
+    int count = 11;
+    int c[count] = {0};
+    for (int i = 0; i < n; i++)
+    {
+        c[a[i]]++;
+    }
+    // 计数数组求和
+    for (int i = 1; i < count; i++)
+    {
+        c[i]=c[i-1]+c[i];
+    }
+    // 新建排序数组
+    int *temp;
+    temp = (int *)malloc((n) * sizeof(int));
+    if (!temp)
+    {
+        abort();
+    }
+    // 排序
+    for (int i = n-1; i >=0; i--)
+    {
+        temp[c[a[i]]-1]=a[i];
+        c[a[i]]--;
+    }
+    // 赋值给数组a
+    memcpy(a, temp, (n) * sizeof(int));
+    // 清空 temp
+    free(temp);
+}
+
 int main(int argc, char const *argv[])
 {
     // https://www.cnblogs.com/xiongxx/p/6239213.html
@@ -280,7 +320,10 @@ int main(int argc, char const *argv[])
     // shellSort(a, n);
     // mergeSort(a, 0, n - 1);
     // quickSort(a, 0, n - 1);
-    printf("%d\n", a[findIndexK(a, k - 1, 0, n - 1)]);
-    printAll(a, n);
+    // printf("%d\n", a[findIndexK(a, k - 1, 0, n - 1)]);
+    int count[12] = {1, 1, 1, 1, 2, 6, 5, 8, 2, 0, 4, 5};
+    countingSort(count, 12);
+    printAll(count,12);
+    // printAll(a, n);
     return 0;
 }
