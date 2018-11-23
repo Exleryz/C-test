@@ -275,8 +275,16 @@ int findIndexK(int a[], int k, int left, int right)
 // 计数排序(Counting sort)
 void countingSort(int a[], int n)
 {
+    // 自行定制count
+    int count = a[0];
+    for (int i = 0; i < n; i++)
+    {
+        if (count < a[i])
+        {
+            count = a[i];
+        }
+    }
     // 构建计数数组
-    int count = 11;
     int c[count] = {0};
     for (int i = 0; i < n; i++)
     {
@@ -285,7 +293,7 @@ void countingSort(int a[], int n)
     // 计数数组求和
     for (int i = 1; i < count; i++)
     {
-        c[i]=c[i-1]+c[i];
+        c[i] = c[i - 1] + c[i];
     }
     // 新建排序数组
     int *temp;
@@ -295,9 +303,9 @@ void countingSort(int a[], int n)
         abort();
     }
     // 排序
-    for (int i = n-1; i >=0; i--)
+    for (int i = n - 1; i >= 0; i--)
     {
-        temp[c[a[i]]-1]=a[i];
+        temp[c[a[i]] - 1] = a[i];
         c[a[i]]--;
     }
     // 赋值给数组a
@@ -323,7 +331,7 @@ int main(int argc, char const *argv[])
     // printf("%d\n", a[findIndexK(a, k - 1, 0, n - 1)]);
     int count[12] = {1, 1, 1, 1, 2, 6, 5, 8, 2, 0, 4, 5};
     countingSort(count, 12);
-    printAll(count,12);
+    printAll(count, 12);
     // printAll(a, n);
     return 0;
 }
