@@ -4,14 +4,25 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "name": "Python Launch",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": true,
+            "pythonPath": "C:\\Users\\zyezh\\AppData\\Local\\Programs\\Python\\Python36\\python.exe",
+            "console": "integratedTerminal",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "envFile": "${workspaceFolder}/.env"
+        },
         {
             "name": "(sort) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/CC++/sort/sort.out",
             "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
-            "targetArchitecture": "x86", 
+            "targetArchitecture": "x86",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
