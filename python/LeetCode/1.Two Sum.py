@@ -25,10 +25,16 @@ return [0, 1].
 class Solution:
     def twoSum(self, nums, target):
         # 嵌套for循环
-        for i in range(len(nums) - 1):
-            for j in range(i + 1, len(nums)):
-                if nums[i] + nums[j] == target:
-                    return [i, j]
+        # for i in range(len(nums) - 1):
+        #     for j in range(i + 1, len(nums)):
+        #         if nums[i] + nums[j] == target:
+        #             return [i, j]
+        # 内存换时间
+        dic = {}
+        for i, num in enumerate(nums):
+            if target - num in dic:
+                return [i, dic[target -num]]
+            dic[num] = i
 
 
 s = Solution()
